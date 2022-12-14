@@ -10,4 +10,12 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - MONGO_USER=crash
+      - MONGO_PASSWORD=burn
     command: npm run dev
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=crash
+      - MONGO_INITDB_ROOT_PASSWORD=burn
+     
