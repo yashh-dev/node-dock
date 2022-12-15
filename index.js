@@ -6,15 +6,13 @@ const postRouter = require("./routes/postRoutes")
 const userRouter = require("./routes/userRoutes")
 const {MONGO_USER,MONGO_PASSWORD,MONGO_IP,MONGO_PORT, SESSION_SECRET, REDIS_PORT, REDIS_URL} = require('./config/config')
 
-const session = require('express-session')
-const redis = require("redis")
-
+const session = require("express-session")
+const redis = require("ioredis")
 let RedisStore = require("connect-redis")(session)
-let redisClient = new redis.createClient({
+let redisClient = redis.createClient({
     host : REDIS_URL,
     port : REDIS_PORT
 })
-
 
 
 const mongoURL = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
@@ -34,23 +32,20 @@ function connectRetry(){
 
 connectRetry()
 
-
 app.use(session({
-    store : new RedisStore({
-        client:redisClient
-    }),
+    name :'mac',
+    store :new RedisStore({client : redisClient}),
     secret : SESSION_SECRET,
     cookie : {
-        name: 'cook',
-        httpOnly: true,
-        secure: false,
-        resave: false,
+        secure : false,
+        resave : false,
         saveUninitialized : false,
-        maxAge : 30000*60
-    },
-    resave: false,
-    saveUninitialized : false,
+        httpOnly : true,
+        maxAge : 30000
+    }
+
 }))
+
 
 app.use(express.json())
 
