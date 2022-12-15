@@ -52,7 +52,7 @@ app.use(session({
     saveUninitialized : false,
 }))
 
-app.use(express.json( ))
+app.use(express.json())
 
 
 app.use(morgan('tiny'))
