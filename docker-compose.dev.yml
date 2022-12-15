@@ -12,6 +12,7 @@ services:
       - NODE_ENV=development
       - MONGO_USER=crash
       - MONGO_PASSWORD=burn
+      - SESSION_SECRET=victor
     command: npm run dev
   mongo:
     image: mongo
